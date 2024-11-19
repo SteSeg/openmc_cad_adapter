@@ -40,6 +40,17 @@ def to_cubit_journal(geometry : openmc.Geometry, world : Iterable[Real] = None,
                      filename: str = "openmc.jou",
                      to_cubit: bool = False,
                      seen: set = set()):
+    # break this function into smaller functions, by surface or something
+    # surface to cubit journal looks at each entry of the thing that has already beed 
+    # parsed
+    # it does list of surface types. That will be breaked down in the surface.py 
+    # and then recalled in here
+    # to_cubit_surface_iiner could be just an operatore just like openmc regions
+    # it gets all the openmc cells, from the cells gets the regions
+    # sees how regions are made up of surfaces (inclduing +,- anf bool operators)
+    # for each of the surfaces of the region stars building semi-spaces
+
+
     """Convert an OpenMC geometry to a Cubit journal.
 
     Parameters
@@ -95,10 +106,10 @@ def to_cubit_journal(geometry : openmc.Geometry, world : Iterable[Real] = None,
 
     cmds = []
     cmds.extend( [
-        #"set undo off",
-        #"set default autosizing off",   # especially when the CAD is complex (contains many spline surfaces) this can have a massive effect
-        #"set info off",
-        #"set warning off",
+        # "set undo off",
+        # "set default autosizing off",   # especially when the CAD is complex (contains many spline surfaces) this can have a massive effect
+        # "set info off",
+        # "set warning off",
         ])
     def cubit_cmd(s):
         cmds.append(s)
@@ -608,6 +619,7 @@ def openmc_to_cad():
     parser.add_argument('input', help='Path to a OpenMC model.xml file or path to a directory containing OpenMC XMLs')
     parser.add_argument('-o', '--output', help='Output filename', default='openmc.jou')
     parser.add_argument('-w', '--world-size', help='Maximum width of the geometry in X, Y, and Z', nargs=3, type=int)
+    # you can specify the cells with openmc id, so I can convert those cells
     parser.add_argument('-c', '--cells', help='List of cell IDs to convert', nargs='+', type=int)
     parser.add_argument('--to-cubit', help='Run  Cubit', default=False, action='store_true')
     parser.add_argument('--cubit-path', help='Path to Cubit bin directory', default=None, type=str)
