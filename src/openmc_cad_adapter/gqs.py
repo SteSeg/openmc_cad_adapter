@@ -48,7 +48,7 @@ def characterize_general_quadratic( surface ): #s surface
     signs = np.array([0, 0, 0])
     for i in range(0, 3):
         if eigenvalues[i] > -1 * gq_tol:
-            signs[i] = -1
+            signs[i] = 1
         else:
             signs[i] = 1
 
